@@ -15,7 +15,10 @@ def CalcAvgStd(xrate_map, n):
 	sq = sum((x-avg)**2 for x in xrate_map)
 	# Divide by (n-1), from Bessel's correction.
 	std = (sq/(n-1)) ** 0.5
-	print "Lastest {0:} day(s), Avg: {1:.3f}, StdDev: {2:.3f}.".format(n, avg, std)
+	maxv = max(xrate_map)
+	minv = min(xrate_map)
+	midv = (maxv + minv) * 0.5
+	print "Lastest {0:} day(s), Mid: {3:.3f}, Avg: {1:.3f}, StdDev: {2:.3f}".format(n, avg, std, midv)
 
 def Main():
 	today = datetime.date.today()
@@ -26,6 +29,8 @@ def Main():
 		xrate_map.append(chf);
 
 	for day in days_to_stats:
+		if day > k_total_days:
+			break
 		CalcAvgStd(xrate_map[:day], day)
 
 if __name__ == "__main__":
