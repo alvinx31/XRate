@@ -22,8 +22,13 @@ def calc_avg_std(xrate_map):
     maxv = max(xrate_map)
     minv = min(xrate_map)
     midv = (maxv + minv) * 0.5
+    # https://en.wikipedia.org/wiki/Standard_deviation#Rules_for_normally_distributed_data
+    # 1 stdev, conf: 70%
+    # 1.28 stddev, conf: 80%
+    # 1.64 stddev, conf: 90%    
     print "Latest {0:4d} day(s), Mid: {3:.3f}, Avg: {1:.3f}, "\
-        "StdDev: {2:.3f}".format(n, avg, std, midv)
+        "[{4:.3f}, {5:.3f}], StdDev: {2:.3f}"\
+        .format(n, avg, std, midv, avg-std*1.28, avg+std*1.28)
 
 def main():
     xrate_wrapper = ratewrapper.RateWrapper(k_hash_file)
