@@ -8,7 +8,7 @@ import ratewrapper
 
 k_total_days = 360 * 5
 k_days_to_stats = [7, 15, 30, 90, 180, 360, 360*2, 360*5]
-k_hash_file = "rate.txt"
+k_hash_file = "rate.csv"
 
 
 def calc_avg_std(xrate_map):
