@@ -6,7 +6,7 @@
 import datetime
 import ratewrapper
 
-k_total_days = 1500  # More days since weekends are included.
+k_total_days = 500  # More days since weekends are included.
 k_days_to_stats = [3, 16, 32, 64, 128, 256]#, 512, 1028]
 k_hash_file = "rate.csv"
 
