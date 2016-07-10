@@ -1,3 +1,8 @@
+# Compute the average exchange rate for CHF/USD.
+#
+# usage:
+#   $> time python compute-hist-rate.py
+
 import datetime
 import urllib2
 import json
@@ -20,9 +25,8 @@ def calc_avg_std(xrate_map, n):
 	maxv = max(xrate_map)
 	minv = min(xrate_map)
 	midv = (maxv + minv) * 0.5
-	print "Latest {0:} day(s), Mid: {3:.3f}, Avg: {1:.3f}, StdDev: {2:.3f}".format(n, avg, std, midv)
-
-
+	print "Latest {0:} day(s), Mid: {3:.3f}, Avg: {1:.3f}, "\
+	  "StdDev: {2:.3f}".format(n, avg, std, midv)
 
 def main():
 	xrate_wrapper = ratewrapper.RateWrapper(hash_file)
