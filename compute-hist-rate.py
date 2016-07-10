@@ -6,8 +6,8 @@
 import datetime
 import ratewrapper
 
-k_total_days = 360 * 5
-k_days_to_stats = [7, 15, 30, 90, 180, 360, 360*2, 360*5]
+k_total_days = 1500  # More days since weekends are included.
+k_days_to_stats = [8, 16, 32, 64, 128, 256, 512]#, 1028]
 k_hash_file = "rate.csv"
 
 
@@ -36,8 +36,14 @@ def main():
     xrate_map = []
     today = datetime.date.today()
     for n in range(k_total_days):
-        chf = xrate_wrapper.get_day_rate(today - datetime.timedelta(n))
-        xrate_map.append(chf)
+        current_day = today - datetime.timedelta(n)
+        # Skip Saturdays, Sundays which the market is closed.
+        if current_day.weekday() >= 5:
+            continue
+        chf = xrate_wrapper.get_day_rate(current_day)
+        # Skip days which the market is unavailable.
+        if chf >= 0:
+            xrate_map.append(chf)
 
     for day in k_days_to_stats:
         if day > k_total_days:

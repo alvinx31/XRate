@@ -41,8 +41,12 @@ class RateWrapper:
         if self.__xrate_hash.has_key(k):
             return self.__xrate_hash[k]
         day_rate = json.loads(urllib2.urlopen(self.generate_url(day)).read())
-        self.__xrate_hash[k] = day_rate['rates']['CHF']
-        return day_rate['rates']['CHF']
+
+        # Exclude days which the market is unavailable, i.e. holidays.
+        if k == day_rate['date']:
+            self.__xrate_hash[k] = day_rate['rates']['CHF']
+            return day_rate['rates']['CHF']
+        return -1
 
     def __init__(self, hash_file):
         self.__hash_file = hash_file
