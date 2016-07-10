@@ -28,7 +28,7 @@ def calc_avg_std(xrate_map):
     # 1.64 stddev, conf: 90%    
     print "Latest {0:4d} day(s), Mid: {3:.3f}, Avg: {1:.3f}, "\
         "[{4:.3f}, {5:.3f}], StdDev: {2:.3f}"\
-        .format(n, avg, std, midv, avg-std*1.28, avg+std*1.28)
+        .format(n, avg, std, midv, avg-std, avg+std)
 
 def main():
     xrate_wrapper = ratewrapper.RateWrapper(k_hash_file)
