@@ -21,6 +21,8 @@ def calc_avg_std(xrate_map, n):
 	midv = (maxv + minv) * 0.5
 	print "Latest {0:} day(s), Mid: {3:.3f}, Avg: {1:.3f}, StdDev: {2:.3f}".format(n, avg, std, midv)
 
+class RateHash:
+
 def load_hash():	
 	xrate_hash = {}
 	try:
