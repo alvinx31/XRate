@@ -1,4 +1,10 @@
 class RateWrapper:
+    """ Store historical exchange rate data light weight locally, 
+    and provide an access API by day searching, to reduce unnecessary 
+    http request.
+
+    And the local database will update accordingly after using.
+    """
 
     def __load_hash(self):
         self.__xrate_hash = {}
