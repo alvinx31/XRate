@@ -1,6 +1,7 @@
 import json
 import urllib2
 
+access_key='8886438d5dcb063d80a10feb133f884c'
 
 class RateWrapper:
     ''' Store historical exchange rate data light weight locally, 
@@ -34,7 +35,7 @@ class RateWrapper:
         Get historical rates for any day since 1999 from
         http://api.fixer.io/2000-01-03?base=USD.
         '''
-        return "http://api.fixer.io/{:%Y-%m-%d}?base=USD".format(day)
+        return "http://data.fixer.io/api/{:%Y-%m-%d}?access_key={}".format(day, access_key)
 
     def get_day_rate(self, day):
         k = self.__get_hash_key(day)
@@ -44,7 +45,7 @@ class RateWrapper:
 
         # Exclude days which the market is unavailable, i.e. holidays.
         if k == day_rate['date']:
-            self.__xrate_hash[k] = day_rate['rates']['CHF']
+            self.__xrate_hash[k] = day_rate['rates']['CHF'] / day_rate['rates']['USD']
             return day_rate['rates']['CHF']
         return -1
 

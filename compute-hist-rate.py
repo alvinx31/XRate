@@ -58,6 +58,7 @@ def main():
         if current_day.weekday() >= 5:
             continue
         chf = xrate_wrapper.get_day_rate(current_day)
+        print current_day, chf
         # Skip days which the market is unavailable.
         if chf > 0:
             xrate_map.append(chf)
