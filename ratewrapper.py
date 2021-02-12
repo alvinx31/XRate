@@ -42,16 +42,17 @@ class RateWrapper:
             print url
         return url
 
-    def get_day_rate(self, day):
+    def get_day_rate(self, day, tt=1):
         k = self.__get_hash_key(day)
         if self.__xrate_hash.has_key(k):
             return self.__xrate_hash[k]
         try:
-            day_rate = json.loads(urllib2.urlopen(self.generate_url(day), timeout=1).read())
+            day_rate = json.loads(urllib2.urlopen(self.generate_url(day), timeout=tt).read())
             if _DEBUG:
                 print day_rate
         except:
-            day_rate = json.loads(urllib2.urlopen(self.generate_url(day), timeout=5).read())
+            # day_rate = json.loads(urllib2.urlopen(self.generate_url(day), timeout=5).read())
+            return self.get_day_rate(day, tt * 2)
 
         # Exclude days which the market is unavailable, i.e. holidays.
         if k == day_rate['date']:
