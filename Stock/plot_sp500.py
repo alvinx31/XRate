@@ -8,7 +8,7 @@ import matplotlib.dates as mdates
 import numpy as np
 from matplotlib.pyplot import MultipleLocator
 
-TOP = 300  # The latest months to view.
+TOP = 25 * 12  # The latest months to view.
 url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
 url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
 
@@ -50,10 +50,12 @@ def fetch_data(url, top=120):
 _, y_t10y = fetch_data(url_t10y, TOP)
 x, y_sp500 = fetch_data(url_sp500_pe, TOP)
 y = []
+y2 = []
 for i in range(len(y_t10y)):
     r_pe = 1.0 / float(y_sp500[i])
     rate = p2f(y_t10y[i])
     y.append((r_pe - rate) * 100.)
+    y2.append(rate * 100.)
 
 print('Ploting the graph ...')
 
@@ -76,8 +78,8 @@ y_minor_locator=MultipleLocator(0.2)
 ax.yaxis.set_major_locator(y_major_locator)
 ax.yaxis.set_minor_locator(y_minor_locator)
 
-miny = round(np.min(y) - 0.5)
-maxy = round(np.max(y) + 0.5)
+miny = round(min(np.min(y), np.min(y2)) - 0.5)
+maxy = round(max(np.max(y), np.max(y2)) + 0.5)
 ax.set_ylim(miny, maxy)
 
 # show y-axis in the right side.
@@ -87,7 +89,8 @@ ax2.yaxis.set_major_locator(y_major_locator)
 ax2.yaxis.set_minor_locator(y_minor_locator)
 # ax2.grid(None)
 
-ax.plot(x, y, label = 'Premium return over risk (as %)')
+ax.plot(x, y, label = 'S&P 500 Premium Return Over Risk (as %)')
+ax.plot(x, y2, label = '10 Year Treasury Rate (as %)')
 ax.legend()
 ax.grid()
 plt.show()
