@@ -11,6 +11,7 @@ from matplotlib.pyplot import MultipleLocator
 TOP = 25 * 12  # The latest months to view.
 url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
 url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
+url_sp500_dividend = 'https://www.multpl.com/s-p-500-dividend-yield/table/by-month'
 
 def p2f(x):
     return float(x.strip('%'))/100
@@ -46,15 +47,22 @@ def fetch_data(url, top=120):
         val.append(value)
     return year, val
 
+msg = 'Select the mode to analysis\n  0): The Simple\n  1): The Comprehensive\n'
+mode_comp = input(msg) == '1'
 
 _, y_t10y = fetch_data(url_t10y, TOP)
 x, y_sp500 = fetch_data(url_sp500_pe, TOP)
+if mode_comp:
+    _, y_div = fetch_data(url_sp500_dividend, TOP)
 y = []
 y2 = []
 for i in range(len(y_t10y)):
     r_pe = 1.0 / float(y_sp500[i])
     rate = p2f(y_t10y[i])
-    y.append((r_pe - rate) * 100.)
+    ret = (r_pe - rate) * 100.
+    if mode_comp:
+        ret = ret + p2f(y_div[i]) * 100.
+    y.append(ret)
     y2.append(rate * 100.)
 
 print('Ploting the graph ...')
