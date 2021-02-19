@@ -22,7 +22,7 @@ def dfs_urlopen(url, timeout=1):
         return dfs_urlopen(url, timeout * 2)
     return resp
 
-def fetch_data(url, top=30):
+def fetch_data(url, top=120):
     print('Start fetching data table ...')
     resp = dfs_urlopen(url)
     text = resp.read()
@@ -76,7 +76,18 @@ y_minor_locator=MultipleLocator(0.2)
 ax.yaxis.set_major_locator(y_major_locator)
 ax.yaxis.set_minor_locator(y_minor_locator)
 
+miny = round(np.min(y) - 0.5)
+maxy = round(np.max(y) + 0.5)
+ax.set_ylim(miny, maxy)
+
+# show y-axis in the right side.
+ax2 = ax.twinx()
+ax2.set_ylim(miny, maxy)
+ax2.yaxis.set_major_locator(y_major_locator)
+ax2.yaxis.set_minor_locator(y_minor_locator)
+# ax2.grid(None)
+
 ax.plot(x, y, label = 'Premium return over risk (as %)')
-ax.plot(x, [0]*len(x), linestyle='dashed', label = 'Base line')
-plt.legend()
+ax.legend()
+ax.grid()
 plt.show()
