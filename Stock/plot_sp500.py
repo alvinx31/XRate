@@ -1,17 +1,22 @@
 import urllib.request as urlrq
-import certifi
-import ssl
 from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
 
-TOP = 15  # The latest years to view.
+TOP = 25  # The latest years to view.
 
 def p2f(x):
     return float(x.strip('%'))/100
 
+def dfs_urlopen(url, timeout=1):
+    try:
+        resp = urlrq.urlopen(url, timeout=timeout)
+    except:
+        return dfs_urlopen(url, timeout * 2)
+    return resp
+
 def fetch_data(url, top=30):
     print('Start fetching data table ...')
-    resp = urlrq.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()))
+    resp = dfs_urlopen(url)
     text = resp.read()
     soup = BeautifulSoup(text, 'html.parser')
     print('Finish fetching!')
@@ -42,5 +47,7 @@ for i in range(len(y_t10y)):
 
 print('Ploting the graph ...')
 ax = plt.axes()
-ax.plot(x, y)
+ax.plot(x, y, label = 'Premium return over risk')
+ax.plot(x, [0]*len(x), linestyle='dashed', label = 'Base line')
+plt.legend()
 plt.show()
