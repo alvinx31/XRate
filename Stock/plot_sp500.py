@@ -89,7 +89,7 @@ ax2.yaxis.set_major_locator(y_major_locator)
 ax2.yaxis.set_minor_locator(y_minor_locator)
 # ax2.grid(None)
 
-ax.plot(x, y, label = 'S&P 500 Premium Return Over Risk (1/pe-10YT, as %)')
+ax.plot(x, y, label = 'S&P 500 Equity Risk Premium (as %)')
 ax.plot(x, y2, label = '10 Year Treasury Rate (as %)')
 ax.legend()
 ax.grid()
