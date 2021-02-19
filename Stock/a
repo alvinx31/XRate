@@ -1,0 +1,3 @@
+#!/bin/bash
+
+time ipython plot_sp500.py
