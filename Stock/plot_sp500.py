@@ -98,7 +98,7 @@ ax2.yaxis.set_minor_locator(y_minor_locator)
 # ax2.grid(None)
 
 ax.plot(x, y, label = 'S&P 500 Equity Risk Premium (as %)')
-ax.plot(x, y2, label = '10 Year Treasury Rate (as %)')
+ax.plot(x, y2, label = '10 Year Treasury Rate')
 ax.plot(x_umemploy, y_umemploy, label = 'US Unemployment Rate')
 ax.legend()
 ax.grid()
