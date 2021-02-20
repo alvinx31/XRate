@@ -47,8 +47,10 @@ def fetch_data(url, top=120):
         val.append(value)
     return year, val
 
-msg = 'Select the mode to analysis\n  0): The Simple\n  1): The Comprehensive\n'
-mode_comp = input(msg) == '1'
+# Disable the compresive mode.
+# msg = 'Select the mode to analysis\n  0): The Simple\n  1): The Comprehensive\n'
+# mode_comp = input(msg) == '1'
+mode_comp = False
 
 _, y_t10y = fetch_data(url_t10y, TOP)
 x, y_sp500 = fetch_data(url_sp500_pe, TOP)
