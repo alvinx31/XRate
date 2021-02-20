@@ -8,7 +8,7 @@ import matplotlib.dates as mdates
 import numpy as np
 from matplotlib.pyplot import MultipleLocator
 
-TOP = 15 * 12  # The latest months to view.
+TOP = 20 * 12  # The latest months to view.
 url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
 url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
 url_unemploy = 'https://www.multpl.com/unemployment/table/by-month'
