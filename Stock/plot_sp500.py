@@ -11,7 +11,7 @@ from matplotlib.pyplot import MultipleLocator
 TOP = 15 * 12  # The latest months to view.
 url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
 url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
-url_sp500_dividend = 'https://www.multpl.com/s-p-500-dividend-yield/table/by-month'
+url_unemploy = 'https://www.multpl.com/unemployment/table/by-month'
 
 def p2f(x):
     return float(x.strip('%'))/100
@@ -47,25 +47,20 @@ def fetch_data(url, top=120):
         val.append(value)
     return year, val
 
-# Disable the compresive mode.
-# msg = 'Select the mode to analysis\n  0): The Simple\n  1): The Comprehensive\n'
-# mode_comp = input(msg) == '1'
-mode_comp = False
-
 _, y_t10y = fetch_data(url_t10y, TOP)
 x, y_sp500 = fetch_data(url_sp500_pe, TOP)
-if mode_comp:
-    _, y_div = fetch_data(url_sp500_dividend, TOP)
+x_umemploy, y_umemploy = fetch_data(url_unemploy, TOP)
+
 y = []
 y2 = []
 for i in range(len(y_t10y)):
     r_pe = 1.0 / float(y_sp500[i])
     rate = p2f(y_t10y[i])
     ret = (r_pe - rate) * 100.
-    if mode_comp:
-        ret = ret + p2f(y_div[i]) * 100.
     y.append(ret)
     y2.append(rate * 100.)
+
+    y_umemploy[i] = p2f(y_umemploy[i]) * 100.
 
 print('Ploting the graph ...')
 
@@ -89,7 +84,10 @@ ax.yaxis.set_major_locator(y_major_locator)
 ax.yaxis.set_minor_locator(y_minor_locator)
 
 miny = round(min(np.min(y), np.min(y2)) - 0.5)
+miny = min(miny, round(np.min(y_umemploy) - 0.5))
 maxy = round(max(np.max(y), np.max(y2)) + 0.5)
+max_y_umemploy = min(11., round(np.max(y_umemploy) + 0.5))  # discard extreme point to show more detail.
+maxy = max(maxy, max_y_umemploy) 
 ax.set_ylim(miny, maxy)
 
 # show y-axis in the right side.
@@ -101,6 +99,7 @@ ax2.yaxis.set_minor_locator(y_minor_locator)
 
 ax.plot(x, y, label = 'S&P 500 Equity Risk Premium (as %)')
 ax.plot(x, y2, label = '10 Year Treasury Rate (as %)')
+ax.plot(x_umemploy, y_umemploy, label = 'US Unemployment Rate')
 ax.legend()
 ax.grid()
 plt.show()
