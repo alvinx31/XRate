@@ -9,7 +9,7 @@ import numpy as np
 from matplotlib.pyplot import MultipleLocator
 
 TOP = 25 * 12  # The latest months to view.
-url_t10y = 'https://www.multpl.com/5-year-treasury-rate/table/by-month'
+url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
 url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
 url_sp500_dividend = 'https://www.multpl.com/s-p-500-dividend-yield/table/by-month'
 
@@ -100,7 +100,7 @@ ax2.yaxis.set_minor_locator(y_minor_locator)
 # ax2.grid(None)
 
 ax.plot(x, y, label = 'S&P 500 Equity Risk Premium (as %)')
-ax.plot(x, y2, label = '5 Year Treasury Rate (as %)')
+ax.plot(x, y2, label = '10 Year Treasury Rate (as %)')
 ax.legend()
 ax.grid()
 plt.show()
