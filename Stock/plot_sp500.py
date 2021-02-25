@@ -9,24 +9,30 @@ import numpy as np
 from matplotlib.pyplot import MultipleLocator
 
 TOP = 20 * 12  # The latest months to view.
-url_t10y = 'https://www.multpl.com/10-year-treasury-rate/table/by-month'
-url_sp500_pe = 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month'
-url_unemploy = 'https://www.multpl.com/unemployment/table/by-month'
+
+files_map = {
+        '10-year-treasury-rate' : 'https://www.multpl.com/10-year-treasury-rate/table/by-month',
+        's-p-500-pe-ratio' : 'https://www.multpl.com/s-p-500-pe-ratio/table/by-month',
+        'unemployment' : 'https://www.multpl.com/unemployment/table/by-month'
+}
 
 def p2f(x):
     return float(x.strip('%'))/100
 
-def dfs_urlopen(url, timeout=1):
+def dfs_urlopen(url, fname, timeout=1):
+    if timeout > 16:
+        with open('./data/' + fname + '.htm') as f:
+            return f.read()
     try:
-        resp = urlrq.urlopen(url, timeout=timeout)
+        resp = urlrq.urlopen(url, fname, timeout=timeout)
     except:
-        return dfs_urlopen(url, timeout * 2)
-    return resp
+        return dfs_urlopen(url, fname, timeout * 2)
+    return resp.read()
 
-def fetch_data(url, top=120):
+def fetch_data(fname, top=120):
     print('Start fetching data table ...')
-    resp = dfs_urlopen(url)
-    text = resp.read()
+    url = files_map[fname]
+    text = dfs_urlopen(url, fname)
     soup = BeautifulSoup(text, 'html.parser')
     print('Finish fetching!')
     table = soup.find("table", { "id" : "datatable" })
@@ -47,9 +53,9 @@ def fetch_data(url, top=120):
         val.append(value)
     return year, val
 
-_, y_t10y = fetch_data(url_t10y, TOP)
-x, y_sp500 = fetch_data(url_sp500_pe, TOP)
-x_umemploy, y_umemploy = fetch_data(url_unemploy, TOP)
+_, y_t10y = fetch_data('10-year-treasury-rate', TOP)
+x, y_sp500 = fetch_data('s-p-500-pe-ratio', TOP)
+x_umemploy, y_umemploy = fetch_data('unemployment', TOP)
 
 y = []
 y2 = []
@@ -102,4 +108,5 @@ ax.plot(x, y2, label = '10 Year Treasury Rate')
 ax.plot(x_umemploy, y_umemploy, label = 'US Unemployment Rate')
 ax.legend()
 ax.grid()
+plt.title('Last updated: ' + str(x[-1]))
 plt.show()
