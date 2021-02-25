@@ -20,7 +20,7 @@ def p2f(x):
     return float(x.strip('%'))/100
 
 def dfs_urlopen(url, fname, timeout=1):
-    if timeout > 16:
+    if timeout > 8:
         with open('./data/' + fname + '.htm') as f:
             return f.read()
     try:
