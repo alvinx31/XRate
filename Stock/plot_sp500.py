@@ -55,7 +55,7 @@ def fetch_data(fname, top=120):
 
 _, y_t10y = fetch_data('10-year-treasury-rate', TOP)
 x, y_sp500 = fetch_data('s-p-500-pe-ratio', TOP)
-x_umemploy, y_umemploy = fetch_data('unemployment', TOP)
+x_unemploy, y_unemploy = fetch_data('unemployment', TOP)
 
 y = []
 y2 = []
@@ -66,7 +66,7 @@ for i in range(len(y_t10y)):
     y.append(ret)
     y2.append(rate * 100.)
 
-    y_umemploy[i] = p2f(y_umemploy[i]) * 100.
+    y_unemploy[i] = p2f(y_unemploy[i]) * 100.
 
 print('Ploting the graph ...')
 
@@ -90,10 +90,10 @@ ax.yaxis.set_major_locator(y_major_locator)
 ax.yaxis.set_minor_locator(y_minor_locator)
 
 miny = round(min(np.min(y), np.min(y2)) - 0.5)
-miny = min(miny, round(np.min(y_umemploy) - 0.5))
+miny = min(miny, round(np.min(y_unemploy) - 0.5))
 maxy = round(max(np.max(y), np.max(y2)) + 0.5)
-max_y_umemploy = min(11., round(np.max(y_umemploy) + 0.5))  # discard extreme point to show more detail.
-maxy = max(maxy, max_y_umemploy) 
+max_y_unemploy = min(11., round(np.max(y_unemploy) + 0.5))  # discard extreme point to show more detail.
+maxy = max(maxy, max_y_unemploy) 
 ax.set_ylim(miny, maxy)
 
 # show y-axis in the right side.
@@ -105,7 +105,7 @@ ax2.yaxis.set_minor_locator(y_minor_locator)
 
 ax.plot(x, y, label = 'S&P 500 Equity Risk Premium (as %)')
 ax.plot(x, y2, label = '10 Year Treasury Rate')
-ax.plot(x_umemploy, y_umemploy, label = 'US Unemployment Rate')
+ax.plot(x_unemploy, y_unemploy, label = 'US Unemployment Rate')
 ax.legend()
 ax.grid()
 plt.title('Last updated: ' + str(x[-1]))
