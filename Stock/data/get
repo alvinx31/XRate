@@ -1,0 +1,6 @@
+echo Start downloading ...
+wget -c  https://www.multpl.com/10-year-treasury-rate/table/by-month -O 10-year-treasury-rate.htm &
+wget -c  https://www.multpl.com/s-p-500-pe-ratio/table/by-month -O s-p-500-pe-ratio.htm &
+wget -c  https://www.multpl.com/unemployment/table/by-month -O unemployment.htm &
+wait 
+echo Done!
